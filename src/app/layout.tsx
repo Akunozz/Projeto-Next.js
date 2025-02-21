@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cookies } from "next/headers"
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/SideBar/Sidebar"
-import { ThemeProvider } from "@/components/Theme/theme-provider";
+import { ThemeProvider } from "@/Provider/theme-provider";
+import Navbar from "@/components/Navbar/Navbar";
+import { ThemeButton } from "@/components/ui/themeButton";
+import { headers } from "next/headers";
+import { ToasterProvider } from "@/Provider/toaster-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,27 +25,38 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 
-  const cookieStore = await cookies()
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const pathname = headerStore.get("x-invoke-path") || headerStore.get("referer") || "";
 
+  // Layout apenas para a página de login (sem navbar e sidebar)
+  if (pathname.includes("/LoginPage")) {
+    return (
+      <html lang="pt-BR">
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="p-4">
+              <ToasterProvider />
+              <ThemeButton className="border-2 border-zinc-300 dark:border-zinc-700" />
+              {children}
+            </main>
+          </ThemeProvider>
+        </body>
+      </html>
+    )
+  }
+
+  //Layout padrão para todos
   return (
     <html lang="pt-BR">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SidebarProvider
-            defaultOpen={defaultOpen}>
-            <AppSidebar />
-            <main>
-              <SidebarTrigger />
-              {children}
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
+        <Navbar>{children}</Navbar>
       </body>
     </html>
   );

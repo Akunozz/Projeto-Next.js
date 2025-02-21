@@ -3,21 +3,22 @@
 
 import { Home, LogIn, User2, Building, Landmark, ClipboardList, ClipboardCheck, ClipboardType, ListChecks, ClipboardPenLine, Users, CarFront, Car, UserSquare2 } from "lucide-react"
 import Image from 'next/image'
-import logo from '../../../public/logo-frota-certa.png'
+import logo from '../../../public/logo-appelsoft.png'
 
 import {
   Sidebar,
+  SidebarHeader,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
 
 // Menu items.
 const items = [
+
   {
     title: "Home",
     url: "/",
@@ -90,26 +91,24 @@ const items = [
   },
 ]
 
-export function AppSidebar() {
-  const { state } = useSidebar()
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
-    <Sidebar className="bg-zinc-800 text-white">
+    <Sidebar variant="inset" collapsible="icon" {...props} className="bg-white dark:bg-zinc-800 border-2 border-zinc-300 dark:border-none  text-black dark:text-white ">
+      <SidebarHeader>
+        <Image
+          src={logo}
+          alt="Logo Frota Certa"
+        />
+
+      </SidebarHeader>
       <SidebarContent>
-        {/* ✅ Exibe a imagem apenas se a sidebar NÃO estiver colapsada */}
-        {state !== "collapsed" && (
-          <Image
-            src={logo}
-            alt="Logo Frota Certa"
-            className="flex p-2 mx-auto w-44"
-          />
-        )}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive>
+                  <SidebarMenuButton asChild isActive className="hover:bg-gray-200 dark:hover:bg-zinc-600 border-b border-zinc-300 dark:border-zinc-600">
                     <a href={item.url} className="flex items-center space-x-2 p-6">
                       <item.icon />
                       <span>{item.title}</span>
