@@ -3,11 +3,8 @@ import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover"
 import { Separator } from "../ui/separator"
 import { CircleDollarSign, HelpCircle, LogOut, Settings, User2 } from "lucide-react"
 
-interface AvatarNavbarProps {
-    className?: string
-}
 
-export default function Navbar({ className }: AvatarNavbarProps) {
+export default function Navbar() {
     return (
         <Popover>
             <PopoverTrigger>
