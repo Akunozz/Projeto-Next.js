@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@/assets/css/globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "@/Provider/theme-provider";
 import { ThemeButton } from "@/components/ui/themeButton";
+import { TanstackProvider } from "@/Provider/tanstack-provider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -34,7 +35,9 @@ export default function LoginLayout({ children }: { children: React.ReactNode })
                     <div className=" md:w-2/3 lg:bg-blue-400 lg:dark:bg-blue-950">
                         <ThemeButton className=" border-2 border-zinc-300 dark:border-zinc-700" />
                     </div>
+                    <TanstackProvider>
                     {children}
+                    </TanstackProvider>
                 </ThemeProvider>
             </body>
         </html>

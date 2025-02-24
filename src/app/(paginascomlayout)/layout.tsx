@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "@/assets/css/globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "@/Provider/theme-provider";
 import Navbar from "@/components/Navbar/Navbar";
+import { TanstackProvider } from "@/Provider/tanstack-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar>{children}</Navbar>
+          <TanstackProvider>
+            <Navbar>
+              {children}
+              </Navbar>
+              </TanstackProvider>
         </ThemeProvider>
       </body>
     </html>
