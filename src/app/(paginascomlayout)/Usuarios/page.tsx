@@ -1,9 +1,16 @@
-export default function LoginPage() {
-    return (
+import TabelaMotoristas from "./tabelaMotoristas"
 
-        <div>
+export default function Usuarios() {
+
+
+    return (
+        <>
             <h1> Usuários </h1>
-        </div>
+
+            <div>
+                <TabelaMotoristas />
+            </div>
+        </>
 
     )
 }
